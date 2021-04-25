@@ -1,14 +1,21 @@
-name: Update gist with WakaTime stats
+name: Update Gist
+
 on:
+  push:
+    branches: master
+
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "12 */12 * * *"
+
 jobs:
   update-gist:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Install
+        run: npm ci
       - name: Update gist
-        uses: matchai/waka-box@master
+        run: node ./index.js
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GIST_ID: 938b1c78b2e72d84aa819e1510a37b37
